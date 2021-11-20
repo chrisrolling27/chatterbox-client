@@ -18,6 +18,7 @@ var App = {
     // Fetch initial batch of messages
     App.startSpinner();
     App.fetch(App.stopSpinner);
+    Messages.updateMessages();
 
     // TODO: Make sure the app loads data from the API
     // continually, instead of just once at the start.
@@ -26,7 +27,16 @@ var App = {
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // examine the response from the server request:
+      callback();
+      // If the data hasn't updated, don't do anything.
+      //fix this make it a async function maybe idk
+
+      Messages.updateMessages(data);
+      Rooms.updateRooms();
+      RoomsView.render();
+
       console.log(data);
+
 
       // TODO: Use the data to update Messages and Rooms
       // and re-render the corresponding views.

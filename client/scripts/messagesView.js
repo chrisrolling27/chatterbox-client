@@ -8,14 +8,27 @@ var MessagesView = {
   initialize: function() {
     // TODO: Perform any work which needs to be done
     // when this view loads.
+    MessagesView.render();
   },
 
-  render: function() {
+  render: function(room) {
     // TODO: Render _all_ the messages.
+    room = Rooms.currentRoom;
+    $('#chats').html('');
+    let html = '';
+    for (let message of Messages._data) {
+      if (room && message.roomname === room) {
+        html += MessageView.render(message);
+      } else if (!room) {
+        html += MessageView.render(message);
+      }
+    }
+    $('#chats').append(html);
   },
 
   renderMessage: function(message) {
     // TODO: Render a single message.
+    $('#chats').append(MessageView.render(message));
   },
 
   handleClick: function(event) {
